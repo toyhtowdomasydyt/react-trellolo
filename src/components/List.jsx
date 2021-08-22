@@ -53,17 +53,21 @@ const List = ({list, listId, dispatch, index}) => {
     };
 
     const deleteList = async () => {
-        if (window.confirm("Are you sure to delete this list?")) {
-            dispatch({
-                type: "DELETE_LIST",
-                payload: {listId, cards: list.cards}
-            });
+        if (!list.cards.length) {
+            if (window.confirm("Are you sure to delete this list?")) {
+                dispatch({
+                    type: "DELETE_LIST",
+                    payload: {listId, cards: list.cards}
+                });
+            }
+        } else {
+            alert("List is not empty!");
         }
     };
 
     return (
         <Draggable draggableId={list._id} index={index}>
-            {(provided, snapshot) => (
+            {(provided) => (
                 <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
