@@ -4,8 +4,8 @@ import {DragDropContext, Droppable} from "react-beautiful-dnd";
 
 import "./Board.css"
 
-import List from "./List";
-import AddList from "./AddList";
+import List from "../List/List";
+import AddList from "../List/AddList";
 
 const Board = ({board, dispatch}) => {
     const [addingList, setAddingList] = useState(false);

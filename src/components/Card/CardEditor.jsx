@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./CardEditor.css";
 
 import TextareaAutosize from "react-textarea-autosize";
-import EditButtons from "./EditButtons";
+import EditButtons from "../Buttons/EditButtons";
 
 const CardEditor = ({onSave, onCancel, onDelete, adding, text}) => {
     const [editorState, setEditorState] = useState(text || "");

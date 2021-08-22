@@ -3,7 +3,7 @@ import "./AddList.css";
 import {connect} from "react-redux";
 
 import ListEditor from "./ListEditor";
-import EditButtons from "./EditButtons";
+import EditButtons from "../Buttons/EditButtons";
 import shortid from "shortid";
 
 const AddList = ({toggleAddingList, dispatch}) => {

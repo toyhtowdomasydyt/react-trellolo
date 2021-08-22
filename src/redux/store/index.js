@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from "redux";
 import throttle from "lodash.throttle";
 
-import seed from "./seed";
+import seed from "../initial-data/seed";
 
 const board = (state = { lists: [] }, action) => {
     switch (action.type) {
@@ -174,16 +174,16 @@ const loadState = () => {
 };
 
 const persistedState = loadState();
-const store = createStore(reducers, persistedState);
+const index = createStore(reducers, persistedState);
 
-store.subscribe(
+index.subscribe(
     throttle(() => {
-        saveState(store.getState());
+        saveState(index.getState());
     }, 1000)
 );
 
-if (!store.getState().board.lists.length) {
-    seed(store);
+if (!index.getState().board.lists.length) {
+    seed(index);
 }
 
-export default store;
+export default index;

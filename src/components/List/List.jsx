@@ -4,8 +4,8 @@ import {Draggable, Droppable} from "react-beautiful-dnd";
 
 import "./List.css";
 
-import Card from "./Card";
-import CardEditor from "./CardEditor";
+import Card from "../Card/Card";
+import CardEditor from "../Card/CardEditor";
 import ListEditor from "./ListEditor";
 
 import shortid from "shortid";
