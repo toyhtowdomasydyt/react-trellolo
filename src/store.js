@@ -1,6 +1,8 @@
 import { combineReducers, createStore } from "redux";
 import throttle from "lodash.throttle";
 
+import seed from "./seed";
+
 const board = (state = { lists: [] }, action) => {
     switch (action.type) {
         case "ADD_LIST": {
@@ -179,5 +181,14 @@ store.subscribe(
         saveState(store.getState());
     }, 1000)
 );
+
+console.log(store.getState());
+
+if (!store.getState().board.lists.length) {
+    console.log("SEED");
+    seed(store);
+
+    console.log(store);
+}
 
 export default store;
