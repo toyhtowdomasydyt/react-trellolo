@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import moment from "moment";
 
-const TimeAgo = ({fromDate, updateInterval = 60000}) => {
+const TimeAgo = ({fromDate, updateInterval = 60000, ...props}) => {
     const [fromMoment, setFromMoment] = useState(moment(fromDate).fromNow());
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const TimeAgo = ({fromDate, updateInterval = 60000}) => {
     }, []);
 
     return (
-        <div>{fromMoment}</div>
+        <div {...props}>{fromMoment}</div>
     );
 };
 

@@ -67,7 +67,7 @@ const Card = ({listId, card, dispatch, index}) => {
                                 </div>
                             )}
                             <div>{card.text}</div>
-                            <TimeAgo fromDate={card.date} updateInterval={1000}/>
+                            <TimeAgo fromDate={card.date} updateInterval={1000} className="Card-Timestamp"/>
                         </div>
                     )}
                 </Draggable>
