@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {useSelector} from "react-redux";
 import "./CardEditor.css";
 
 import TextareaAutosize from "react-textarea-autosize";
@@ -7,7 +6,6 @@ import EditButtons from "./EditButtons";
 
 const CardEditor = ({onSave, onCancel, onDelete, adding, text}) => {
     const [editorState, setEditorState] = useState(text || "");
-
 
     const handleChangeText = event => setEditorState(event.target.value);
 
@@ -31,7 +29,7 @@ const CardEditor = ({onSave, onCancel, onDelete, adding, text}) => {
                 />
             </div>
             <EditButtons
-                handleSave={() => onSave(text)}
+                handleSave={() => onSave(editorState)}
                 saveLabel={adding ? "Add card" : "Save"}
                 handleDelete={onDelete}
                 handleCancel={onCancel}

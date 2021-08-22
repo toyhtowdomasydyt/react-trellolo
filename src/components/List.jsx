@@ -1,14 +1,47 @@
 import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import {connect} from "react-redux";
 import "./List.css";
 
 import Card from "./Card";
 import shortid from "shortid";
 import CardEditor from "./CardEditor";
+import ListEditor from "./ListEditor";
 
-const List = ({listId, index, dispatch}) => {
-    const listState = useSelector(state => state.listsById[listId]);
+const List = ({list, listId, dispatch}) => {
     const [addingCard, setAddingCard] = useState(false);
+    const [listState, setListState] = useState({
+        editingTitle: false,
+        title: list.title,
+        addingCard: false,
+    });
+
+    const handleChangeTitle = event => setListState({
+        ...listState,
+        title: event.target.value,
+    });
+
+    const toggleEditingTitle = () => setListState({
+        ...listState,
+        editingTitle: !listState.editingTitle,
+    });
+
+    const editListTitle = async () => {
+        toggleEditingTitle();
+
+        dispatch({
+            type: "CHANGE_LIST_TITLE",
+            payload: {listId, listTitle: listState.title},
+        });
+    };
+
+    const deleteList = async () => {
+        if (window.confirm("Are you sure to delete this list?")) {
+            dispatch({
+                type: "DELETE_LIST",
+                payload: {listId, cards: list.cards}
+            });
+        }
+    };
 
     const toggleAddingCard = () => setAddingCard(!addingCard);
 
@@ -19,41 +52,55 @@ const List = ({listId, index, dispatch}) => {
 
         dispatch({
             type: "ADD_CARD",
-            payload: { cardText, cardId, listId }
+            payload: {cardText, cardId, listId}
         });
     };
 
 
     return (
         <div className="List">
-            <div
-                className="List-Title"
-                onClick={() => {
-                }}
-            >
-                {listState.cards.map((cardId, index) => (
-                    <Card
-                        key={cardId}
-                        cardId={cardId}
-                        index={index}
-                        listId={listState.id}
-                    />
-                ))}
+            {listState.editingTitle ? (
+                <ListEditor
+                    list={list}
+                    title={listState.title}
+                    handleChangeTitle={handleChangeTitle}
+                    saveList={editListTitle}
+                    onClickOutside={editListTitle}
+                    deleteList={deleteList}
+                />
+            ) : (
+                <div className="List-Title" onClick={toggleEditingTitle}>
+                    {list.title}
+                </div>
+            )}
 
-                {addingCard ? (
-                    <CardEditor
-                        onSave={addCard}
-                        onCancel={toggleAddingCard}
-                        adding
-                    />
-                ) : (
-                    <div className="Toggle-Add-Card" onClick={toggleAddingCard}>
-                        <ion-icon name="add" /> Add a card
-                    </div>
-                )}
-            </div>
+            {list.cards.map((cardId, index) => (
+                <Card
+                    key={cardId}
+                    cardId={cardId}
+                    index={index}
+                    listId={list._id}
+                />
+            ))}
+
+            {addingCard ? (
+                <CardEditor
+                    onSave={addCard}
+                    onCancel={toggleAddingCard}
+                    adding
+                />
+            ) : (
+                <div className="Toggle-Add-Card" onClick={toggleAddingCard}>
+                    <ion-icon name="add"/>
+                    Add a card
+                </div>
+            )}
         </div>
     );
 };
 
-export default List;
+const mapStateToProps = (state, ownProps) => ({
+    list: state.listsById[ownProps.listId]
+});
+
+export default connect(mapStateToProps)(List);
