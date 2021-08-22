@@ -1,7 +1,6 @@
 import shortid from "shortid";
 
 export default store => {
-    console.log("Insert first list");
     const firstListId = shortid.generate();
 
     store.dispatch({
@@ -27,7 +26,6 @@ export default store => {
         }
     });
 
-    console.log("Insert second list");
     const secondListId = shortid.generate();
 
     store.dispatch({

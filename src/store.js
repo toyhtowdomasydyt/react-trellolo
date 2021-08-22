@@ -182,13 +182,8 @@ store.subscribe(
     }, 1000)
 );
 
-console.log(store.getState());
-
 if (!store.getState().board.lists.length) {
-    console.log("SEED");
     seed(store);
-
-    console.log(store);
 }
 
 export default store;
