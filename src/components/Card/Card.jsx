@@ -1,9 +1,11 @@
 import React, {useState} from "react";
+import {connect} from "react-redux";
 import {Draggable} from "react-beautiful-dnd";
+
 import "./Card.css";
 
 import CardEditor from "./CardEditor";
-import {connect} from "react-redux";
+import TimeAgo from "../TimeAgo/TimeAgo";
 
 const Card = ({listId, card, dispatch, index}) => {
     const [cardState, setCardState] = useState({
@@ -28,9 +30,11 @@ const Card = ({listId, card, dispatch, index}) => {
     const editCard = async text => {
         endEditing();
 
+        const date = new Date().toISOString();
+
         dispatch({
             type: "CHANGE_CARD_TEXT",
-            payload: {cardId: card._id, cardText: text}
+            payload: {cardId: card._id, cardText: text, date: date}
         });
     };
 
@@ -62,7 +66,8 @@ const Card = ({listId, card, dispatch, index}) => {
                                     </div>
                                 </div>
                             )}
-                            {card.text}
+                            <div>{card.text}</div>
+                            <TimeAgo fromDate={card.date} updateInterval={1000}/>
                         </div>
                     )}
                 </Draggable>

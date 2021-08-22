@@ -26,10 +26,11 @@ const List = ({list, listId, dispatch, index}) => {
         toggleAddingCard();
 
         const cardId = shortid.generate();
+        const date = new Date().toISOString();
 
         dispatch({
             type: "ADD_CARD",
-            payload: { cardText, cardId, listId }
+            payload: {cardText, cardId, listId, date}
         });
     };
 
@@ -112,7 +113,8 @@ const List = ({list, listId, dispatch, index}) => {
                                     />
                                 ) : (
                                     <div className="Toggle-Add-Card" onClick={toggleAddingCard}>
-                                        <ion-icon name="add" /> Add a card
+                                        <ion-icon name="add"/>
+                                        Add a card
                                     </div>
                                 )}
                             </div>

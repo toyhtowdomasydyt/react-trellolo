@@ -12,6 +12,9 @@ const CardEditor = ({onSave, onCancel, onDelete, adding, text}) => {
     const onEnter = e => {
         if (e.keyCode === 13) {
             e.preventDefault();
+
+            console.log(editorState);
+
             onSave(editorState);
         }
     };
