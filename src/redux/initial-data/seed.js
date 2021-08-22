@@ -5,7 +5,7 @@ export default store => {
 
     store.dispatch({
         type: "ADD_LIST",
-        payload: { listId: firstListId, listTitle: "First list" }
+        payload: {listId: firstListId, listTitle: "First list"}
     });
 
     store.dispatch({
@@ -13,7 +13,8 @@ export default store => {
         payload: {
             listId: firstListId,
             cardId: shortid.generate(),
-            cardText: "First card"
+            cardText: "First card",
+            date: new Date().toISOString(),
         }
     });
 
@@ -22,7 +23,8 @@ export default store => {
         payload: {
             listId: firstListId,
             cardId: shortid.generate(),
-            cardText: "Second card"
+            cardText: "Second card",
+            date: new Date().toISOString(),
         }
     });
 
@@ -30,7 +32,7 @@ export default store => {
 
     store.dispatch({
         type: "ADD_LIST",
-        payload: { listId: secondListId, listTitle: "Second list" }
+        payload: {listId: secondListId, listTitle: "Second list"}
     });
 
     store.dispatch({
@@ -38,7 +40,8 @@ export default store => {
         payload: {
             listId: secondListId,
             cardId: shortid.generate(),
-            cardText: "Card 1"
+            cardText: "Card 1",
+            date: new Date().toISOString(),
         }
     });
 
@@ -47,7 +50,8 @@ export default store => {
         payload: {
             listId: secondListId,
             cardId: shortid.generate(),
-            cardText: "Card 2"
+            cardText: "Card 2",
+            date: new Date().toISOString(),
         }
     });
 };

@@ -1,29 +1,29 @@
-import { combineReducers, createStore } from "redux";
+import {combineReducers, createStore} from "redux";
 import throttle from "lodash.throttle";
 
 import seed from "../initial-data/seed";
 
-const board = (state = { lists: [] }, action) => {
+const board = (state = {lists: []}, action) => {
     switch (action.type) {
         case "ADD_LIST": {
-            const { listId } = action.payload;
-            return { lists: [...state.lists, listId] };
+            const {listId} = action.payload;
+            return {lists: [...state.lists, listId]};
         }
         case "MOVE_LIST": {
-            const { oldListIndex, newListIndex } = action.payload;
+            const {oldListIndex, newListIndex} = action.payload;
             const newLists = Array.from(state.lists);
 
             const [removedList] = newLists.splice(oldListIndex, 1);
             newLists.splice(newListIndex, 0, removedList);
 
-            return { lists: newLists };
+            return {lists: newLists};
         }
         case "DELETE_LIST": {
-            const { listId } = action.payload;
+            const {listId} = action.payload;
 
             const newLists = state.lists.filter(tmpListId => tmpListId !== listId);
 
-            return { lists: newLists };
+            return {lists: newLists};
         }
         default:
             return state;
@@ -33,33 +33,33 @@ const board = (state = { lists: [] }, action) => {
 const listsById = (state = {}, action) => {
     switch (action.type) {
         case "ADD_LIST": {
-            const { listId, listTitle } = action.payload;
+            const {listId, listTitle} = action.payload;
 
             return {
                 ...state,
-                [listId]: { _id: listId, title: listTitle, cards: [] }
+                [listId]: {_id: listId, title: listTitle, cards: []}
             };
         }
         case "CHANGE_LIST_TITLE": {
-            const { listId, listTitle } = action.payload;
+            const {listId, listTitle} = action.payload;
 
             return {
                 ...state,
-                [listId]: { ...state[listId], title: listTitle }
+                [listId]: {...state[listId], title: listTitle}
             };
         }
         case "DELETE_LIST": {
-            const { listId } = action.payload;
-            const { [listId]: deletedList, ...restOfLists } = state;
+            const {listId} = action.payload;
+            const {[listId]: deletedList, ...restOfLists} = state;
 
             return restOfLists;
         }
         case "ADD_CARD": {
-            const { listId, cardId } = action.payload;
+            const {listId, cardId} = action.payload;
 
             return {
                 ...state,
-                [listId]: { ...state[listId], cards: [...state[listId].cards, cardId] }
+                [listId]: {...state[listId], cards: [...state[listId].cards, cardId]}
             };
         }
         case "MOVE_CARD": {
@@ -76,7 +76,7 @@ const listsById = (state = {}, action) => {
                 newCards.splice(newCardIndex, 0, removedCard);
                 return {
                     ...state,
-                    [sourceListId]: { ...state[sourceListId], cards: newCards }
+                    [sourceListId]: {...state[sourceListId], cards: newCards}
                 };
             }
 
@@ -88,18 +88,18 @@ const listsById = (state = {}, action) => {
 
             return {
                 ...state,
-                [sourceListId]: { ...state[sourceListId], cards: sourceCards },
-                [destListId]: { ...state[destListId], cards: destinationCards }
+                [sourceListId]: {...state[sourceListId], cards: sourceCards},
+                [destListId]: {...state[destListId], cards: destinationCards}
             };
         }
         case "DELETE_CARD": {
-            const { cardId: deletedCardId, listId } = action.payload;
+            const {cardId: deletedCardId, listId} = action.payload;
 
             return {
                 ...state,
                 [listId]: {
                     ...state[listId],
-                    cards: state[listId].cards.filter( cardId => cardId !== deletedCardId)
+                    cards: state[listId].cards.filter(cardId => cardId !== deletedCardId)
                 }
             };
         }
@@ -111,29 +111,29 @@ const listsById = (state = {}, action) => {
 const cardsById = (state = {}, action) => {
     switch (action.type) {
         case "ADD_CARD": {
-            const { cardText, cardId } = action.payload;
+            const {cardText, cardId, date} = action.payload;
 
-            return { ...state, [cardId]: { text: cardText, _id: cardId } };
+            return {...state, [cardId]: {text: cardText, _id: cardId, date: date}};
         }
         case "CHANGE_CARD_TEXT": {
-            const { cardText, cardId } = action.payload;
+            const {cardText, cardId, date} = action.payload;
 
-            return { ...state, [cardId]: { ...state[cardId], text: cardText } };
+            return {...state, [cardId]: {...state[cardId], text: cardText, date: date}};
         }
         case "DELETE_CARD": {
-            const { cardId } = action.payload;
-            const { [cardId]: deletedCard, ...restOfCards } = state;
+            const {cardId} = action.payload;
+            const {[cardId]: deletedCard, ...restOfCards} = state;
 
             return restOfCards;
         }
 
         case "DELETE_LIST": {
-            const { cards: cardIds } = action.payload;
+            const {cards: cardIds} = action.payload;
 
             return Object.keys(state)
                 .filter(cardId => !cardIds.includes(cardId))
                 .reduce(
-                    (newState, cardId) => ({ ...newState, [cardId]: state[cardId] }),
+                    (newState, cardId) => ({...newState, [cardId]: state[cardId]}),
                     {}
                 );
         }
