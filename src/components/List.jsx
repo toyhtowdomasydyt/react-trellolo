@@ -5,7 +5,7 @@ import "./List.css";
 import Card from "./Card";
 
 const List = ({listId, index}) => {
-    const listState = useSelector(state => state.listById[listId]);
+    const listState = useSelector(state => state.listsById[listId]);
 
     return (
         <div className="List">
