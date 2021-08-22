@@ -1,10 +1,11 @@
 import React, {useState} from "react";
+import {Draggable} from "react-beautiful-dnd";
 import "./Card.css";
 
 import CardEditor from "./CardEditor";
 import {connect} from "react-redux";
 
-const Card = ({listId, card, dispatch}) => {
+const Card = ({listId, card, dispatch, index}) => {
     const [cardState, setCardState] = useState({
         hover: false,
         editing: false
@@ -44,20 +45,27 @@ const Card = ({listId, card, dispatch}) => {
         <>
             {!cardState.editing
                 ?
-                <div
-                    className="Card"
-                    onMouseEnter={startHover}
-                    onMouseLeave={endHover}
-                >
-                    {cardState.hover && (
-                        <div className="Card-Icons">
-                            <div className="Card-Icon" onClick={startEditing}>
-                                <ion-icon name="create"/>
-                            </div>
+                <Draggable draggableId={card._id} index={index}>
+                    {(provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="Card"
+                            onMouseEnter={startHover}
+                            onMouseLeave={endHover}
+                        >
+                            {cardState.hover && (
+                                <div className="Card-Icons">
+                                    <div className="Card-Icon" onClick={startEditing}>
+                                        <ion-icon name="create"/>
+                                    </div>
+                                </div>
+                            )}
+                            {card.text}
                         </div>
                     )}
-                    {card.text}
-                </div>
+                </Draggable>
                 :
                 <CardEditor
                     text={card.text}

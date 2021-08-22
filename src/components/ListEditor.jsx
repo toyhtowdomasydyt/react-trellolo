@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+
 import "./ListEditor.css";
 
 import TextareaAutosize from "react-textarea-autosize";
@@ -11,13 +12,15 @@ const ListEditor = ({title, handleChangeTitle, saveList, deleteList, onClickOuts
         }
     };
 
-    const handleClick = event => {
-        onClickOutside();
-    };
+    const handleClick = () => onClickOutside();
 
     useEffect(() => {
         document.addEventListener("click", handleClick, false);
-    });
+
+        return () => {
+            document.removeEventListener("click", handleClick, false);
+        };
+    }, []);
 
     return (
         <div className="List-Title-Edit">
