@@ -1,10 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 
 import "./ListEditor.css";
 
 import TextareaAutosize from "react-textarea-autosize";
 
 const ListEditor = ({title, handleChangeTitle, saveList, deleteList, onClickOutside}) => {
+    const ref = useRef(null);
+
     const onEnter = event => {
         if (event.keyCode === 13) {
             event.preventDefault();
@@ -12,18 +14,24 @@ const ListEditor = ({title, handleChangeTitle, saveList, deleteList, onClickOuts
         }
     };
 
-    const handleClick = () => onClickOutside();
+    const handleClick = event => {
+        const node = ref.current;
+
+        if (node !== null) {
+            if (node.contains(event.target)) return;
+        }
+
+        onClickOutside();
+    };
 
     useEffect(() => {
         document.addEventListener("click", handleClick, false);
 
-        return () => {
-            document.removeEventListener("click", handleClick, false);
-        };
-    }, []);
+        return () => document.removeEventListener("click", handleClick, false);
+    });
 
     return (
-        <div className="List-Title-Edit">
+        <div className="List-Title-Edit" ref={ref}>
             <TextareaAutosize
                 autoFocus
                 className="List-Title-Textarea"

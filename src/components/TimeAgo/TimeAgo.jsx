@@ -9,7 +9,7 @@ const TimeAgo = ({fromDate, updateInterval = 60000, ...props}) => {
             setFromMoment(moment(fromDate).fromNow());
         }, updateInterval);
         return () => clearInterval(interval);
-    }, []);
+    });
 
     return (
         <div {...props}>{fromMoment}</div>

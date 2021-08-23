@@ -1,6 +1,6 @@
 import shortid from "shortid";
 
-export default store => {
+const seed = store => {
     const firstListId = shortid.generate();
 
     store.dispatch({
@@ -55,3 +55,5 @@ export default store => {
         }
     });
 };
+
+export default seed;

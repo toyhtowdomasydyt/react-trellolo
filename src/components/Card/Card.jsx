@@ -50,7 +50,7 @@ const Card = ({listId, card, dispatch, index}) => {
             {!cardState.editing
                 ?
                 <Draggable draggableId={card._id} index={index}>
-                    {(provided, snapshot) => (
+                    {provided => (
                         <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
